@@ -3,13 +3,11 @@ name: Pipeline de Integração Contínua (CI)
 on:
   push:
     branches:
-      - main
-      - master
+      - feature/adiciona-ci
 
   pull_request:
     branches:
-      - main
-      - master
+      - feature/adiciona-ci
 
 jobs:
   testes-e-validacao:
