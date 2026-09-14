@@ -1,40 +1,38 @@
 name: Pipeline de Integração Contínua (CI)
 
 on:
-push:
-branches:
-- main
-- feature/adiciona-ci
+  push:
+    branches:
+      - main
+      - feature/adiciona-ci
 
-pull_request:
-branches:
-- main
-- feature/adiciona-ci
+  pull_request:
+    branches:
+      - main
+      - feature/adiciona-ci
 
 jobs:
-testes-e-validacao:
-runs-on: ubuntu-latest
+  testes-e-validacao:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Baixar Código-Fonte
+        uses: actions/checkout@v4
 
-steps:
-  - name: Baixar Código-Fonte
-    uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-  - name: Configurar Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: '20'
-      cache: 'npm'
+      - name: Instalar Dependências
+        run: npm ci
 
-  - name: Instalar Dependências
-    run: npm ci
+      - name: Executar Linter
+        run: npm run lint
 
-  - name: Executar Linter
-    run: npm run lint
+      - name: Executar Testes Automatizados
+        run: npm test
 
-  - name: Executar Testes Automatizados
-    run: npm test
-
-  - name: Verificação de Segurança de Dependências
-    run: npm audit --audit-level=high
-
+      - name: Verificação de Segurança de Dependências
+        run: npm audit --audit-level=high
