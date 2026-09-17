@@ -10,6 +10,7 @@ RUN npm install
 
 COPY . .
 
+
 # --- ESTAGIO 2: Imagem de producao leve ---
 
 FROM node:20-alpine
@@ -21,6 +22,7 @@ COPY package*.json ./
 RUN npm install --only=production
 
 COPY --from=build /app/server.js ./server.js
+COPY --from=build /app/public ./public
 
 USER node
 
